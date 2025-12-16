@@ -49,7 +49,7 @@ module "eks" {
   eks_managed_node_groups = {
     nodes = {
 
-      ami_type       = data.aws_ami.ubuntu.id
+      ami       = data.aws_ami.ubuntu.id
       instance_types = ["t3.medium"]
 
       min_size     = 1
