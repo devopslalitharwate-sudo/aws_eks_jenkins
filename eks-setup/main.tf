@@ -55,5 +55,11 @@ module "eks" {
       desired_size = 2
     }
   }
+
+
+  tags = {
+    Environment = "dev"
+    Terraform   = "true"
+  }
 }
 
