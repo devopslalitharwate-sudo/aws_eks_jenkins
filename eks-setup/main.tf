@@ -10,13 +10,12 @@ module "vpc" {
   private_subnets         = var.private_subnets
   public_subnets          = var.public_subnets
 
-  enable_dns_support      = true   # 🔥 ADD THIS
   enable_dns_hostnames    = true
 
   enable_nat_gateway      = true
   single_nat_gateway      = true
   tags = {
-    Name        = "eks-vpc"
+    "kubernetes.io/cluster/my-eks-cluster" = "shared"
     Terraform   = "true"
     Environment = "dev"
   }
@@ -40,19 +39,18 @@ module "eks" {
   version = "~> 21.0"
 
   name               = "my-eks-cluster"
-  kubernetes_version = "1.29"
+  kubernetes_version = "1.24"
   vpc_id             = module.vpc.vpc_id
   subnet_ids         = module.vpc.private_subnets
 
-  endpoint_public_access  = true
-  endpoint_private_access = true
+ 
 
   eks_managed_node_groups = {
     nodes = {
-      instance_types = ["t3.medium"]
       min_size     = 1
       max_size     = 3
       desired_size = 2
+      instance_types = ["t2.small"]
     }
   }
 
