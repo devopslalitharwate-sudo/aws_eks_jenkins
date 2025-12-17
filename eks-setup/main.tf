@@ -15,7 +15,23 @@ module "vpc" {
 
   enable_nat_gateway      = true
   single_nat_gateway      = true
-  ...
+  tags = {
+    Name        = "eks-vpc"
+    Terraform   = "true"
+    Environment = "dev"
+  }
+
+  public_subnet_tags = {
+    Name                                   = "eks-public-subnets"
+    "kubernetes.io/cluster/my-eks-cluster" = "shared"
+    "kubernetes.io/role/elb"               = 1
+  }
+
+  private_subnet_tags = {
+    Name                                   = "eks-private-subnets"
+    "kubernetes.io/cluster/my-eks-cluster" = "shared"
+    "kubernetes.io/role/internal-elb"      = "1"
+  }
 }
 
 
